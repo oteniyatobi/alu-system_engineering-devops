@@ -1,18 +1,15 @@
 #!/usr/bin/env bash
-# Script to transfer a file from the local machine to the remote server using scp
-
-# Check if exactly 4 arguments were passed
-if [ "$#" -ne 4 ]; then
+# This script is used to transfer files from one server to another using SCP.
+# Usage: 0-transfer_file PATH_TO_FILE IP USERNAME PATH_TO_SSH_KEY
+# Check if the correct number of arguments is provided
+if [ "$#" -lt 4 ]; then
     echo "Usage: 0-transfer_file PATH_TO_FILE IP USERNAME PATH_TO_SSH_KEY"
     exit 1
 fi
 
-#Create the parameters
-PATH_TO_FILE="$1"
-IP="$2"
-USERNAME="$3"
-PATH_TO_SSH_KEY="$4"
+file_path="$1"
+destination_ip="$2"
+username="$3"
+ssh_key_path="$4"
 
-# transfer file
-# scp [options] source destination
-scp -o StrictHostKeyChecking=no -i "$PATH_TO_SSH_KEY" "$PATH_TO_FILE" "$USERNAME"@"$IP":~
+scp -i "$ssh_key_path" -o StrictHostKeyChecking=no "$file_path" "$username@$destination_ip:~"
