@@ -18,4 +18,4 @@ PATH_TO_SSH_KEY="$4"
 scp -i "$PATH_TO_SSH_KEY" \
     -o StrictHostKeyChecking=no \
     "$PATH_TO_FILE" \
-    "$USERNAME@$IP:~/"
+    "$USERNAME"@"$IP":~
