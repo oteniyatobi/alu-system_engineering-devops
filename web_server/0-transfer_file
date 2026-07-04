@@ -2,7 +2,7 @@
 # Transfer a file from the local client to a remote server over SSH.
 # Usage: 0-transfer_file PATH_TO_FILE IP USERNAME PATH_TO_SSH_KEY
 
-if [ "$#" -ne 4 ]; then
+if [ "$#" -lt 4 ]; then
     echo "Usage: 0-transfer_file PATH_TO_FILE IP USERNAME PATH_TO_SSH_KEY"
     exit 1
 fi
@@ -17,4 +17,9 @@ if [ ! -f "$file_path" ]; then
     exit 1
 fi
 
-scp -o StrictHostKeyChecking=no -i "$ssh_key_path" "$file_path" "$username@$destination_ip:~/"
+if [ ! -f "$ssh_key_path" ]; then
+    echo "SSH key not found: $ssh_key_path"
+    exit 1
+fi
+
+scp -o BatchMode=yes -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i "$ssh_key_path" "$file_path" "$username@$destination_ip:~/"
