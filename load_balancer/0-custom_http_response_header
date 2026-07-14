@@ -23,4 +23,4 @@ server {
 CONF
 echo "Ceci n'est pas une page" > /var/www/html/404.html
 echo "Holberton School" > /var/www/html/index.html
-service nginx restart
+service nginx restart || service nginx start || /etc/init.d/nginx restart || /etc/init.d/nginx start || nginx
