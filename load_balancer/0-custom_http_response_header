@@ -4,5 +4,17 @@ export DEBIAN_FRONTEND=noninteractive
 apt-get update -y
 apt-get install -y nginx
 HOSTNAME=$(hostname)
-sed -i "0,/server_name _;/s|server_name _;|server_name _;\n\tadd_header X-Served-By $HOSTNAME;|" /etc/nginx/sites-available/default
+cat > /etc/nginx/sites-available/default << CONF
+server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+    root /var/www/html;
+    index index.html index.htm index.nginx-debian.html;
+    server_name _;
+    add_header X-Served-By $HOSTNAME;
+    location / {
+        try_files \$uri \$uri/ =404;
+    }
+}
+CONF
 service nginx restart || service nginx start
