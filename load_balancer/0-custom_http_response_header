@@ -1,7 +1,0 @@
-#!/usr/bin/env bash
-# Configures Nginx to add a custom X-Served-By header with the server hostname
-export DEBIAN_FRONTEND=noninteractive
-apt-get update -y
-apt-get install -y nginx
-sed -i "/server_name _;/a\\    add_header X-Served-By $(hostname);" /etc/nginx/sites-available/default
-service nginx restart || service nginx start
