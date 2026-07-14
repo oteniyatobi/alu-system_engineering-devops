@@ -3,5 +3,6 @@
 export DEBIAN_FRONTEND=noninteractive
 apt-get update -y
 apt-get install -y nginx
-sed -i "/server_name _;/a\\    add_header X-Served-By $(hostname);" /etc/nginx/sites-available/default
+HOSTNAME=$(hostname)
+sed -i "0,/server_name _;/s|server_name _;|server_name _;\n\tadd_header X-Served-By $HOSTNAME;|" /etc/nginx/sites-available/default
 service nginx restart || service nginx start
