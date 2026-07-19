@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Installs and configures HAProxy as a round-robin load balancer for web-01 and web-02
+# Installs and configures HAProxy as a round-robin load balancers for web-01 and web-02
 export DEBIAN_FRONTEND=noninteractive
 apt-get update -y
 apt-get install -y haproxy
