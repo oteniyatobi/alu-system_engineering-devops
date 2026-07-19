@@ -3,6 +3,8 @@
 export DEBIAN_FRONTEND=noninteractive
 apt-get update -y
 apt-get install -y nginx
+echo "Holberton School" > /var/www/html/index.html
+echo "Holberton School" > /var/www/html/index.nginx-debian.html
 HOSTNAME=$(hostname)
 cat > /etc/nginx/sites-available/default << CONF
 server {
