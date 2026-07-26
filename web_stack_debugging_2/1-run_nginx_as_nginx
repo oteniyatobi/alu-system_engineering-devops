@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+# Configures nginx to run as the nginx user and listen on port 8080 on all IPs
+
+# Create the nginx user if it doesn't already exist, with no login shell
+if ! id -u nginx >/dev/null 2>&1; then
+  useradd -r -s /usr/sbin/nologin nginx
+fi
+
+# Set nginx to run as the nginx user instead of root
+sed -i "s/^#user www-data;/user nginx;/" /etc/nginx/nginx.conf
+sed -i "s/^user www-data;/user nginx;/" /etc/nginx/nginx.conf
+
+# If neither line existed to replace, insert it at the top of the config
+if ! grep -q "^user nginx;" /etc/nginx/nginx.conf; then
+  sed -i "1i user nginx;" /etc/nginx/nginx.conf
+fi
+
+# Make nginx listen on port 8080 on all IPs instead of the default port
+sed -i "s/listen 80 default_server;/listen 8080 default_server;/" /etc/nginx/sites-available/default
+sed -i "s/listen \[::\]:80 default_server;/listen [::]:8080 default_server;/" /etc/nginx/sites-available/default
+
+# Restart nginx to apply changes
+service nginx restart
